@@ -1,0 +1,18 @@
+{
+    "name": "aweitian/framework",
+    "description":"Tian php framework v3",
+    "authors": [
+        {
+            "name": "tiananwei",
+            "email": "awei.tian@qq.com"
+        }
+    ],
+    "require": {
+        "filp/whoops":"*",
+        "symfony/var-dumper":"3.*",
+        "aweitian/container":"*",
+        "aweitian/db-connection":"*",
+        "aweitian/cache":"*",
+        "aweitian/config":"*"
+    }
+}
