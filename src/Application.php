@@ -179,8 +179,11 @@ class Application extends Container
      */
     public function registerConfiguredProviders()
     {
-//        (new ProviderRepository($this, new Filesystem, $this->getCachedServicesPath()))
-//            ->load($this->config['app.providers']);
+        $providers = $this->make('config')->get('app.providers', array());
+        foreach ($providers as $provider) {
+            if (method_exists($provider, 'register'))
+                $provider->register();
+        }
     }
 
     /**
@@ -190,6 +193,10 @@ class Application extends Container
      */
     public function boot()
     {
-
+        $providers = $this->make('config')->get('app.providers', array());
+        foreach ($providers as $provider) {
+            if (method_exists($provider, 'boot'))
+                $provider->boot();
+        }
     }
 }

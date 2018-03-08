@@ -33,7 +33,7 @@ class Kernel
      *
      * @var array
      */
-    protected $bootstrappers = array(
+    protected $bootstraps = array(
         LoadEnvironmentVariables::class,
         LoadConfiguration::class,
         HandleExceptions::class,
@@ -57,12 +57,26 @@ class Kernel
      *
      * @param  Application $app
      * @param  Router $router
-     * @return void
      */
     public function __construct(Application $app, Router $router)
     {
         $this->app = $app;
         $this->router = $router;
+
+    }
+
+    /**
+     * bootstrap the kernel
+     * @return void
+     */
+    public function bootstrap()
+    {
+        foreach ($this->bootstraps as $bootstrap) {
+            $boot = new $bootstrap();
+            if (method_exists($boot, 'bootstrap')) {
+                $boot->bootstrap();
+            }
+        }
     }
 
     /**
