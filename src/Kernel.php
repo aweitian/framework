@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * 静态绑定了router变量
+ */
 namespace Aw\Framework;
 
 
@@ -24,7 +26,7 @@ class Kernel
     /**
      * The router instance.
      *
-     * @var \Aw\Routing\Router\
+     * @var \Aw\Routing\Router\Router
      */
     protected $router;
 
@@ -62,7 +64,7 @@ class Kernel
     {
         $this->app = $app;
         $this->router = $router;
-
+        $this->app->instance('router', $router);
     }
 
     /**
@@ -74,7 +76,7 @@ class Kernel
         foreach ($this->bootstraps as $bootstrap) {
             $boot = new $bootstrap();
             if (method_exists($boot, 'bootstrap')) {
-                $boot->bootstrap();
+                $boot->bootstrap($this->app);
             }
         }
     }
@@ -91,6 +93,15 @@ class Kernel
     }
 
     /**
+     * At the end of request
+     */
+    public function terminal()
+    {
+
+    }
+
+
+    /**
      * Get the Laravel application instance.
      *
      * @return Application
@@ -98,5 +109,13 @@ class Kernel
     public function getApplication()
     {
         return $this->app;
+    }
+
+    /**
+     * @return Router
+     */
+    public function getRouter()
+    {
+        return $this->router;
     }
 }

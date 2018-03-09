@@ -9,6 +9,7 @@
 namespace Aw\Framework;
 
 use Aw\Container;
+use Aw\Framework\Providers\ServiceProvider;
 
 class Application extends Container
 {
@@ -180,9 +181,15 @@ class Application extends Container
     public function registerConfiguredProviders()
     {
         $providers = $this->make('config')->get('app.providers', array());
+        /**
+         * @var ServiceProvider $provider
+         */
         foreach ($providers as $provider) {
-            if (method_exists($provider, 'register'))
-                $provider->register();
+            $inst = new $provider($this);
+            $this->instance($provider, $inst);
+            if (method_exists($inst, 'register')) {
+                $inst->register();
+            }
         }
     }
 
@@ -195,8 +202,10 @@ class Application extends Container
     {
         $providers = $this->make('config')->get('app.providers', array());
         foreach ($providers as $provider) {
-            if (method_exists($provider, 'boot'))
+            $provider = $this->make($provider);
+            if ($provider && method_exists($provider, 'boot')) {
                 $provider->boot();
+            }
         }
     }
 }

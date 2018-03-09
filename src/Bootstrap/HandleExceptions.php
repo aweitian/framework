@@ -14,6 +14,8 @@ class HandleExceptions
      *
      * @param Application $app
      * @return void
+     * @internal param Kernel $kernel
+     * @internal param Application $app
      */
     public function bootstrap(Application $app)
     {
