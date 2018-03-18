@@ -66,6 +66,7 @@ class Application extends Container
         $this->instance('path', $this->path());
         $this->instance('path.base', $this->basePath());
         $this->instance('path.lang', $this->langPath());
+        $this->instance('path.log', $this->langPath());
         $this->instance('path.config', $this->configPath());
         $this->instance('path.public', $this->publicPath());
         $this->instance('path.storage', $this->storagePath());
@@ -107,6 +108,17 @@ class Application extends Container
     }
 
     /**
+     * Get the path to the language files.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function logPath($path = '')
+    {
+        return $this->storagePath() . DIRECTORY_SEPARATOR . 'log'. ($path ? DIRECTORY_SEPARATOR . $path : $path);;
+    }
+
+    /**
      * Get the path to the application configuration files.
      *
      * @param string $path Optionally, a path to append to the config path
@@ -130,11 +142,12 @@ class Application extends Container
     /**
      * Get the path to the storage directory.
      *
+     * @param string $path
      * @return string
      */
-    public function storagePath()
+    public function storagePath($path = '')
     {
-        return $this->basePath . DIRECTORY_SEPARATOR . 'storage';
+        return $this->basePath . DIRECTORY_SEPARATOR . 'storage' . ($path ? DIRECTORY_SEPARATOR . $path : $path);;
     }
 
     /**
