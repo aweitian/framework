@@ -9,6 +9,7 @@ use Aw\Framework\Bootstrap\BootProviders;
 use Aw\Framework\Bootstrap\HandleExceptions;
 use Aw\Framework\Bootstrap\LoadConfiguration;
 use Aw\Framework\Bootstrap\LoadEnvironmentVariables;
+use Aw\Framework\Bootstrap\RegisterAlias;
 use Aw\Framework\Bootstrap\RegisterProviders;
 use Aw\Http\Request;
 use Aw\Http\Response;
@@ -39,6 +40,7 @@ class Kernel
         LoadEnvironmentVariables::class,
         LoadConfiguration::class,
         HandleExceptions::class,
+        RegisterAlias::class,
         RegisterProviders::class,
         BootProviders::class,
     );

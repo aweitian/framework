@@ -115,7 +115,7 @@ class Application extends Container
      */
     public function logPath($path = '')
     {
-        return $this->storagePath() . DIRECTORY_SEPARATOR . 'log'. ($path ? DIRECTORY_SEPARATOR . $path : $path);;
+        return $this->storagePath() . DIRECTORY_SEPARATOR . 'log' . ($path ? DIRECTORY_SEPARATOR . $path : $path);;
     }
 
     /**
