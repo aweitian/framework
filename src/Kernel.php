@@ -39,7 +39,7 @@ class Kernel
     protected $bootstraps = array(
         LoadEnvironmentVariables::class,
         LoadConfiguration::class,
-        HandleExceptions::class,
+//        HandleExceptions::class,
         RegisterAlias::class,
         RegisterProviders::class,
         BootProviders::class,
