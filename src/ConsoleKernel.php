@@ -8,11 +8,6 @@ namespace Aw\Framework;
 
 use Aw\Filesystem\Condition;
 use Aw\Filesystem\Filter;
-use Aw\Framework\Bootstrap\BootProviders;
-use Aw\Framework\Bootstrap\HandleExceptions;
-use Aw\Framework\Bootstrap\LoadConfiguration;
-use Aw\Framework\Bootstrap\LoadEnvironmentVariables;
-use Aw\Framework\Bootstrap\RegisterProviders;
 use ReflectionClass;
 
 class ConsoleKernel
@@ -36,11 +31,11 @@ class ConsoleKernel
      * @var array
      */
     protected $bootstraps = array(
-        LoadEnvironmentVariables::class,
-        LoadConfiguration::class,
-        HandleExceptions::class,
-        RegisterProviders::class,
-        BootProviders::class,
+        'Aw\Framework\Bootstrap\LoadEnvironmentVariables',
+        'Aw\Framework\Bootstrap\LoadConfiguration',
+        'Aw\Framework\Bootstrap\RegisterAlias',
+        'Aw\Framework\Bootstrap\RegisterProviders',
+        'Aw\Framework\Bootstrap\BootProviders',
     );
 
     /**

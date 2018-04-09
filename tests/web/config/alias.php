@@ -13,5 +13,5 @@ class ali
     }
 }
 return array(
-    'ali' => ali::class
+    'ali' => 'ali'
 );

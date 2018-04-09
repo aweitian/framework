@@ -10,7 +10,7 @@ require_once dirname(__DIR__) . "/app/RouterProvider.php";
 
 return array(
     "providers" => array(
-        App\Provider\test::class,
-        \App\Provider\RouterProvider::class
+        'App\Provider\test',
+        'App\Provider\RouterProvider'
     )
 );

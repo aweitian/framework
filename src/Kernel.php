@@ -4,13 +4,6 @@
  */
 namespace Aw\Framework;
 
-
-use Aw\Framework\Bootstrap\BootProviders;
-use Aw\Framework\Bootstrap\HandleExceptions;
-use Aw\Framework\Bootstrap\LoadConfiguration;
-use Aw\Framework\Bootstrap\LoadEnvironmentVariables;
-use Aw\Framework\Bootstrap\RegisterAlias;
-use Aw\Framework\Bootstrap\RegisterProviders;
 use Aw\Http\Request;
 use Aw\Http\Response;
 use Aw\Routing\Router\Router;
@@ -37,12 +30,11 @@ class Kernel
      * @var array
      */
     protected $bootstraps = array(
-        LoadEnvironmentVariables::class,
-        LoadConfiguration::class,
-//        HandleExceptions::class,
-        RegisterAlias::class,
-        RegisterProviders::class,
-        BootProviders::class,
+        'Aw\Framework\Bootstrap\LoadEnvironmentVariables',
+        'Aw\Framework\Bootstrap\LoadConfiguration',
+        'Aw\Framework\Bootstrap\RegisterAlias',
+        'Aw\Framework\Bootstrap\RegisterProviders',
+        'Aw\Framework\Bootstrap\BootProviders',
     );
 
     /**
