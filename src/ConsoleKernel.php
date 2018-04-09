@@ -92,6 +92,7 @@ class ConsoleKernel
             $this->showAllCmd();
             return;
         }
+        $raw_arg = $cmd;
         $cmd = explode(":", $cmd[1], 2);
         if (count($cmd) == 2) {
             $ctl = $cmd[0];
@@ -112,7 +113,7 @@ class ConsoleKernel
             return;
         }
         $method_ins = $rc->getMethod($method);
-        $method_ins->invoke($rc->newInstance($this));
+        $method_ins->invokeArgs($rc->newInstance($this), array_slice($raw_arg, 2));
     }
 
     protected function load($ctl)
@@ -143,7 +144,7 @@ class ConsoleKernel
             foreach ($rc->getMethods() as $method) {
                 if ($method->name == "__construct")
                     continue;
-                $this->output("    ".$ctl . ":" . $method->name);
+                $this->output("    " . $ctl . ":" . $method->name);
             }
 
         }
