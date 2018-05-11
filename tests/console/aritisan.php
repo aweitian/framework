@@ -8,7 +8,7 @@
 require_once __DIR__ . "/../../vendor/autoload.php";
 require_once __DIR__ . '/app/gf.php';
 
-$app = new \Aw\Framework\Application(dirname(__DIR__));
+$app = new \Aw\Framework\ConsoleApplication(dirname(__DIR__));
 
 
 $kernel = new \Aw\Framework\ConsoleKernel($app, __DIR__.'/app');

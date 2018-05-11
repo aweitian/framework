@@ -13,9 +13,9 @@ use ReflectionClass;
 class ConsoleKernel
 {
     /**
-     * The application implementation.
+     * The ConsoleApplication implementation.
      *
-     * @var Application
+     * @var ConsoleApplication
      */
     protected $app;
 
@@ -52,11 +52,11 @@ class ConsoleKernel
     /**
      * Create a new HTTP kernel instance.
      *
-     * @param  Application $app
+     * @param  ConsoleApplication $app
      * @param $path
      * @param null $namespace
      */
-    public function __construct(Application $app, $path, $namespace = null)
+    public function __construct(ConsoleApplication $app, $path, $namespace = null)
     {
         $this->app = $app;
         $this->path = $path;
