@@ -131,13 +131,18 @@ class ConsoleKernel
         return false;
     }
 
-    public function showAllCmd()
+    public function showAllCmd($ctl_filter = "")
     {
         foreach (Filter::filterEndswith($this->path, '.php', Condition::create()->setReturnFilename()) as $ctl) {
             $ctl_class = $this->namespace . $ctl;
             if (!$this->load($ctl)) {
                 //$this->err("$ctl_class is no exists");
                 continue;
+            }
+            if ($ctl_filter) {
+                if ($ctl_filter !== $ctl) {
+                    continue;
+                }
             }
             $this->output($ctl);
             $rc = new ReflectionClass($ctl_class);
@@ -146,7 +151,6 @@ class ConsoleKernel
                     continue;
                 $this->output("    " . $ctl . ":" . $method->name);
             }
-
         }
     }
 
