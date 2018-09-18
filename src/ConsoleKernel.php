@@ -12,6 +12,8 @@ use ReflectionClass;
 
 class ConsoleKernel
 {
+    const APP_NS = "\\App\\Console\\";
+    const FRAMEWORK_NS = "\\Aw\\Framework\\Console\\";
     /**
      * The ConsoleApplication implementation.
      *
@@ -24,7 +26,8 @@ class ConsoleKernel
      */
     protected $path;
 
-    protected $namespace = "\\App\\Console\\";
+    protected $ns_path_map = array();
+
     /**
      * The bootstrap classes for the application.
      *
@@ -54,15 +57,24 @@ class ConsoleKernel
      *
      * @param  ConsoleApplication $app
      * @param $path
-     * @param null $namespace
+     * @param string|array $namespace
      */
     public function __construct(ConsoleApplication $app, $path, $namespace = null)
     {
         $this->app = $app;
         $this->path = $path;
-        if ($namespace) {
-            $this->namespace = $namespace;
-        }
+        $this->setNsPathMap($namespace ? $namespace : self::APP_NS, $path);
+        $this->setNsPathMap(self::FRAMEWORK_NS, $app->basePath("vendor/aweitian/framework/src/Console"));
+    }
+
+    public function setNsPathMap($ns, $path)
+    {
+        $this->ns_path_map[$ns] = $path;
+    }
+
+    public function removeNsPathMap($ns)
+    {
+        unset($this->ns_path_map[$ns]);
     }
 
     /**
@@ -101,11 +113,23 @@ class ConsoleKernel
             $ctl = $cmd[0];
             $act = "help";
         }
-        $ctl_class = $this->namespace . $ctl;
-        if (!$this->load($ctl)) {
-            $this->err("$ctl_class is no exists");
+
+        $found = false;
+        $ctl_class = $ctl;
+        $namespace = array_keys($this->ns_path_map);
+        foreach ($namespace as $ns) {
+            $ctl_class = $ns . $ctl;
+            if ($this->load($ctl, $ns)) {
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) {
+            $this->err("$ctl is no exists in path " . implode($namespace, "|"));
             return;
         }
+
         $rc = new ReflectionClass($ctl_class);
         $method = $act;
         if (!$rc->hasMethod($method)) {
@@ -116,12 +140,14 @@ class ConsoleKernel
         $method_ins->invokeArgs($rc->newInstance($this), array_slice($raw_arg, 2));
     }
 
-    protected function load($ctl)
+    protected function load($ctl, $ns)
     {
-        $ctl_class = $this->namespace . $ctl;
+        $ctl_class = $ns . $ctl;
         if (class_exists($ctl_class))
             return true;
-        if (file_exists($path = $this->path . DIRECTORY_SEPARATOR . $ctl . ".php")) {
+        if (!array_key_exists($ns, $this->ns_path_map))
+            return false;
+        if (file_exists($path = $this->ns_path_map[$ns] . DIRECTORY_SEPARATOR . $ctl . ".php")) {
             require_once $path;
             if (class_exists($ctl_class)) {
                 return true;
@@ -133,25 +159,30 @@ class ConsoleKernel
 
     public function showAllCmd($ctl_filter = "")
     {
-        foreach (Filter::filterEndswith($this->path, '.php', Condition::create()->setReturnFilename()) as $ctl) {
-            $ctl_class = $this->namespace . $ctl;
-            if (!$this->load($ctl)) {
-                //$this->err("$ctl_class is no exists");
-                continue;
-            }
-            if ($ctl_filter) {
-                if ($ctl_filter !== $ctl) {
+        $folders = $this->ns_path_map;
+        foreach ($folders as $ns => $folder) {
+            foreach (Filter::filterEndswith($folder, '.php', Condition::create()->setReturnFilename()) as $ctl) {
+                $ctl_class = $ns . $ctl;
+
+                if (!$this->load($ctl, $ns)) {
                     continue;
                 }
-            }
-            $this->output($ctl);
-            $rc = new ReflectionClass($ctl_class);
-            foreach ($rc->getMethods() as $method) {
-                if ($method->name == "__construct")
-                    continue;
-                $this->output("    " . $ctl . ":" . $method->name);
+
+                if ($ctl_filter) {
+                    if ($ctl_filter !== $ctl) {
+                        continue;
+                    }
+                }
+                $this->output($ctl);
+                $rc = new ReflectionClass($ctl_class);
+                foreach ($rc->getMethods() as $method) {
+                    if ($method->name == "__construct")
+                        continue;
+                    $this->output("    " . $ctl . ":" . $method->name);
+                }
             }
         }
+
     }
 
     public function output($msg, $line = "\n")

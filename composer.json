@@ -1,36 +1,30 @@
 {
-    "name": "aweitian/framework",
-    "description":"Tian php framework v3",
-    "authors": [
-        {
-            "name": "tiananwei",
-            "email": "awei.tian@qq.com"
-        }
-    ],
-    "require": {
-        "filp/whoops":"~1.1.10",
-        "symfony/var-dumper":"2.7",
-        "aweitian/container":"~2.0",
-        "aweitian/dotnet":"~2.0",
-        "aweitian/db-connection":"~2.0",
-        "aweitian/cache":"~2.0",
-        "aweitian/pagination":"~1.0",
-        "aweitian/route":"~2.0",
-        "aweitian/session":"~2.0",
-        "aweitian/view":"~2.0",
-        "aweitian/httpclient":"~2.0",
-        "aweitian/config":"~2.0"
-    },
-    "autoload": {
-        "files": [],
-        "psr-4": {
-            "Aw\\Framework\\": "src/"
-        }
-    },
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
-        }
+  "name": "aweitian/framework",
+  "description": "Tian php framework v3,written for api",
+  "authors": [
+    {
+      "name": "tiananwei",
+      "email": "awei.tian@qq.com"
     }
+  ],
+  "require": {
+    "aweitian/container": "~2.0",
+    "aweitian/dotnet": "~2.0",
+    "aweitian/db-connection": "~2.0",
+    "aweitian/cache": "~2.0",
+    "aweitian/pagination": "~1.0",
+    "aweitian/route": "~2.0",
+    "aweitian/session": "~2.0",
+    "aweitian/httpclient": "~2.0",
+    "aweitian/config": "~2.0",
+    "aweitian/db-reflection": "~3.0",
+    "aweitian/event": "~1.0",
+    "aweitian/utilis":"2.0"
+  },
+  "autoload": {
+    "files": [],
+    "psr-4": {
+      "Aw\\Framework\\": "src/"
+    }
+  }
 }
