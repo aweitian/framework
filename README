@@ -1,1 +1,10 @@
 php tests/web/public/index.php
+
+## web request 生命周期
+- request 被创建
+- 路由被匹配
+- 派遣器准备将request发送到前置middleware
+- 通过前置middleware,初始化controller类
+- 调用ACTION，生成response
+- 派遣器准备将request发送到后置middleware，在后置middleware中next函数的返回值就是response
+- 调用response->send将内容发送给用户

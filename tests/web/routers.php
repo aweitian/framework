@@ -13,9 +13,9 @@ use Aw\Routing\Router\Router;
  */
 $router = $this->app->make('router');
 
-$router->get('/',function (){
+$router->get('/', function () {
     return 'bal';
 });
 
-$router->pmcai();
+$router->pmcai('/', array(), array(), array('check_dispatch' => true));
 
