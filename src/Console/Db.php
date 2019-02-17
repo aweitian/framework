@@ -8,9 +8,9 @@
 
 namespace Aw\Framework\Console;
 
-
 use Aw\Arr;
 use Aw\Db\Connection\Mysql;
+use Aw\Filesystem\Condition;
 use Aw\Filesystem\Filesystem;
 use Aw\Filesystem\Filter;
 use Aw\Framework\ConsoleApplication;
@@ -28,11 +28,12 @@ class Db
     {
         $this->kernel = $kernel;
         $this->app = $kernel->getApplication();
+
     }
 
     public function help()
     {
-        $db_dir = __DIR__ . "/../../database";
+        $db_dir = $this->app->databasePath();
         $ver_path = $db_dir . "/.ver";
         if (!file_exists($ver_path)) {
             $version = 0;
@@ -49,7 +50,7 @@ class Db
     public function listBackup()
     {
         $that = $this;
-        $bak_dir = __DIR__ . "/../../database/bak";
+        $bak_dir = $this->app->databasePath() . "/bak";
         Filter::filter($bak_dir, function ($path) use ($that) {
             if (preg_match("#^\d{14}\.sql$#", pathinfo($path, PATHINFO_BASENAME))) {
                 $that->kernel->output(pathinfo($path, PATHINFO_FILENAME));
@@ -74,7 +75,7 @@ class Db
             }
         }
 
-        $bak_dir = __DIR__ . "/../../database/bak";
+        $bak_dir = $this->app->databasePath() . "/bak";
         /**
          * @var Mysql $connection
          */
@@ -98,7 +99,7 @@ class Db
         $db_name = $env["database"];
         $db_user = $env["user"];
         $db_pass = $env["password"];
-        $bak_dir = __DIR__ . "/../../database/bak";
+        $bak_dir = $this->app->databasePath() . "/bak";
         if (!is_dir($bak_dir)) {
             Filesystem::createDir($bak_dir);
         }
@@ -115,7 +116,7 @@ class Db
 
     public function makeMigrate()
     {
-        $db_dir = __DIR__ . "/../../database/versions";
+        $db_dir = $this->app->databasePath() . "/versions";
         if (!is_dir($db_dir)) {
             mkdir($db_dir);
         }
@@ -148,7 +149,7 @@ class Db
          * @var Mysql $connection
          */
         $connection = $this->app->make("connection");
-        $db_dir = __DIR__ . "/../../database";
+        $db_dir = $this->app->databasePath();
         $ver_path = $db_dir . "/.ver";
         if (!file_exists($ver_path)) {
             file_put_contents($ver_path, 0);
