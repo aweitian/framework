@@ -19,7 +19,7 @@
     "aweitian/config": "~2.0",
     "aweitian/db-reflection": "~3.0",
     "aweitian/event": "~1.0",
-    "aweitian/utilis":"2.0"
+    "aweitian/utilis":"~2.0"
   },
   "autoload": {
     "files": [],
