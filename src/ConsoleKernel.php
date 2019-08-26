@@ -178,7 +178,8 @@ class ConsoleKernel
                 foreach ($rc->getMethods() as $method) {
                     if ($method->name == "__construct")
                         continue;
-                    $this->output("    " . $ctl . ":" . $method->name);
+                    if ($method->isPublic())
+                        $this->output("    " . $ctl . ":" . $method->name);
                 }
             }
         }
